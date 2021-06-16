@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sam_7_Polik</title>
+
+    <!-- aos css file cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+    />
+
+    <!-- magnific popup css cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"
+    />
+
+    <!-- bootstrap cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
+    />
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="../css/style.css" /></head
+  ><head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Samarkand_7_polik</title>
+
+    <!-- aos css file cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+    />
+
+    <!-- magnific popup css cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"
+    />
+
+    <!-- bootstrap cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
+    />
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="../css/styleLogin.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <!-- HEADER SECTION -->
+
+    <header
+      style="
+        background: #fff;
+        box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3);
+        padding: 0.5rem 0rem;
+        height: 15%;
+      "
+    >
+      <div class="container" style="margin-bottom: 30px">
+        <img
+          src="../images/hospital.svg"
+          alt="Hospital Logo"
+          class="logo-svg"
+        />
+        <a href="#" class="logo"
+          ><span>S</span>amarqand <span>7</span> - son Oilaviy
+          <span>P</span>oliklinika.</a
+        >
+
+        <nav class="nav">
+          <ul>
+            <li><a href="/index">Menu</a></li>
+            <li><a href="/signup" class="login">Ro'yxatdan_O'tish</a></li>
+          </ul>
+        </nav>
+
+        <div class="fas fa-bars"></div>
+      </div>
+    </header>
+
+    <form action="/login">
+      <h2>Kirish</h2>
+      <label for="email">Email</label>
+      <input type="text" name="email" required />
+      <div class="email error"></div>
+      <label for="password">Parol</label>
+      <input type="password" name="password" required />
+      <div class="password error"></div>
+      <button>Kirish</button>
+    </form>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // get values
+        const email = form.email.value;
+        const password = form.password.value;
+        const emailError = document.querySelector(".email.error");
+        const passwordError = document.querySelector(".password.error");
+        // reset error values
+        emailError.textContent = "";
+        passwordError.textContent = "";
+
+        try {
+          const res = await fetch("/login", {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+          console.log(data);
+
+          if (data.errors) {
+            emailError.textContent = data.errors.email;
+            passwordError.textContent = data.errors.password;
+          }
+
+          if (data.user) {
+            location.assign("/loggedin");
+          }
+          // console.log(data);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- magnific popup js link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+    <!-- aos js file cdn link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- custom js link  -->
+    <script src="../js/main.js"></script>
+    <!-- <script src="app.js"></script> -->
+    <!-- <script src="../js/mainLogin.js"></script> -->
+    <!-- <script>
+      AOS.init({
+        duration: 1000,
+        delay: 400,
+      });
+    </script> -->
+  </body>
+</html>

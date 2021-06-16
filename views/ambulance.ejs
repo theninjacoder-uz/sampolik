@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+    <body style="background-color: #ccc;">
+    <!-- header section starts  -->
+
+    <header style="
+    background: #fff;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 0rem;
+    height: 15%;
+  ">
+      <div class="container lgn-header">
+        <img
+          src="../images/hospital.svg"
+          alt="Hospital Logo"
+          class="logo-svg"
+        />
+        <a href="#" class="logo"
+          ><span>S</span>amarqand <span>7</span> - son Oilaviy
+          <span>P</span>oliklinika.</a
+        >
+
+        <nav class="nav">
+          <ul>
+            <!-- <li><a href="#home">Bosh Sahifa</a></li>
+            <li><a href="#about">Biz haqimizda</a></li>
+            <li><a href="#facility">Xizmatlar</a></li> -->
+            <!-- <li><a href="#contact">contact</a></li> -->
+            <!-- <li><a href="#post">Foydali</a></li> -->
+            <li><a href="/loggedin" class="login">Menu</a></li>
+            <li><a href="/" class="login">Chiqish</a></li>
+          </ul>
+        </nav>
+
+        <div class="fas fa-bars"></div>
+      </div>
+    </header>
+
+    
+    <!-- REQUEST SECTION ENDS -->
+    <div class="appoinments">
+        <form action="/ambulance" class="form-app">
+          <h1 style="text-align: center; font-size: 3rem; font-weight: 600; color: #000;">Iltimos quyidagilarni to'ldiring</h1>
+  
+          <label for="phonenum">Telefon Nomeringiz*</label><br />
+          <input
+            type="text"
+            name="telephone"
+            id="phonenum"
+            aria-required="true"
+            placeholder="+99897 777 77 77"
+            required
+          /><br />
+         
+
+          <label for="lname">Manzilingiz*</label><br />
+          <input type="text" name="address" id="address" aria-required="true" required/><br />
+          
+          <div class="btn d-flex">
+              <button class="btn-submit" type="reset">Cancel</button>
+              <button class="btn-cancel" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+  
+      
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <!-- Post request  -->
+    <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // get values
+        const telephone = form.telephone.value;
+        const address = form.address.value;
+        
+        // reset error values
+     
+
+        try {
+          const res = await fetch("/ambulance", {
+            method: "POST",
+            body: JSON.stringify({ telephone, address }),
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+          console.log(data);
+
+          if (data.tez) {
+            alert("Sizning so'rovingiz qabul qilindi");
+            location.assign("/loggedin");
+          }
+          // console.log(data);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+
+    <!-- jquery cdn link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- magnific popup js link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+    <!-- aos js file cdn link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- custom js link  -->
+    <script src="../js/main.js"></script>
+    <!-- <script src="../public/app.js"></script> -->
+    <!-- <script src="../puplic/js/mainLogin.js"></script> -->
+    <script>
+      AOS.init({
+        duration: 1000,
+        delay: 400,
+      });
+    </script>
+  </body>
+</html>

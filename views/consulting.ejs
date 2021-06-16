@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body style="background-color: #ccc;">
+    <!-- header section starts  -->
+
+    <header style="
+    background: #fff;
+    box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3);
+    padding: 0.5rem 0rem;
+    height: 15%;
+  ">
+      <div class="container lgn-header">
+        <img
+          src="../images/hospital.svg"
+          alt="Hospital Logo"
+          class="logo-svg"
+        />
+        <a href="#" class="logo"
+          ><span>S</span>amarqand <span>7</span> - son Oilaviy
+          <span>P</span>oliklinika.</a
+        >
+
+        <nav class="nav">
+          <ul>
+            <!-- <li><a href="#home">Bosh Sahifa</a></li>
+            <li><a href="#about">Biz haqimizda</a></li>
+            <li><a href="#facility">Xizmatlar</a></li> -->
+            <!-- <li><a href="#contact">contact</a></li> -->
+            <!-- <li><a href="#post">Foydali</a></li> -->
+            <li><a href="/loggedin" class="login">Menu</a></li>
+            <li><a href="/" class="login">Chiqish</a></li>
+          </ul>
+        </nav>
+
+        <div class="fas fa-bars"></div>
+      </div>
+    </header>
+
+    
+    <!-- REQUEST SECTION ENDS -->
+    <div class="appoinments">
+        <form action="/consulting" class="form-app">
+          <h1 style="text-align: center; font-size: 3rem; font-weight: 600; color: #000;">Online Maslahat</h1>
+          <label for="">Mutaxassis</label>
+          <select name="options" id="doctor-meet">
+            <option value="d1">Akusher-Gnekolog</option>
+            <option value="d2">Allergolik-immunolig</option>
+            <option value="d3">Gastroentolog</option>
+            <option value="d4">Gemotolog</option>
+            <option value="d5">Dermotolog</option>
+            <option value="d6">Infeksionist</option>
+            <option value="d7">Kardiolog</option>
+            <option value="d8">Nevropotolog</option>
+            <option value="d9">Ortoped</option>
+            <option value="d10">Pediatr</option>
+            <option value="d11">Psixoterapevt</option>
+            <option value="d12">Pulmonolog</option>
+            <option value="d13">Oilaviy-doktor</option>
+            <option value="d14">Terapevt</option>
+            <option value="d15">Stamotolog</option>
+            <option value="d16">Urolog</option>
+        </select>
+  
+  
+          <label for="lname">Tug'ulgan sanangiz</label><br />
+          <!-- <input type="text" name="" id="age" /><br /> -->
+          <input type="date" id="start" name="birthdate" min="1918-01-01"
+          max="2020-12-31" value="""dd/mm/yyyy" />
+  
+          <label for="request">Sizga qanday yordam kerak?</label>
+          <textarea rows="10" cols="100" name="problems" required> </textarea>
+          <div class="btn d-flex">
+            <button class="btn-submit" type="reset">O'chirish</button>
+            <button class="btn-cancel">Yuborish</button>
+        </div>
+        </form>
+      </div>
+  
+      
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+
+    <!-- script -->
+    <script>
+      const form = document.querySelector("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // get values
+        const specialist = form.options.value;
+        const birthdate = form.birthdate.value;
+        const problems = form.problems.value.trim();
+        
+        // reset error values
+     
+
+        try {
+          const res = await fetch("/consulting", {
+            method: "POST",
+            body: JSON.stringify({ specialist, birthdate,  problems }),
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+          console.log(data, problems);
+          if(problems === '') alert("Sizni nima bezovta qilayotganini kiriting");
+          else if (data.patientReq) {
+            alert("Sizning so'rovingiz qabul qilindi");
+            location.assign("/loggedin");
+          }
+          // console.log(data);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+    <!-- jquery cdn link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- magnific popup js link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+    <!-- aos js file cdn link  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- custom js link  -->
+    <script src="../js/main.js"></script>
+    <!-- <script src="../public/app.js"></script> -->
+    <!-- <script src="../puplic/js/mainLogin.js"></script> -->
+    <script>
+      AOS.init({
+        duration: 1000,
+        delay: 400,
+      });
+    </script>
+  </body>
+</html>
